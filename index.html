@@ -137,7 +137,7 @@
         <!-- 料理検索フォーム -->
         <section class="flex flex-col gap-3" style="background:transparent!important;border:none!important;box-shadow:none!important;backdrop-filter:none!important;padding:0">
             <div class="flex gap-2">
-                <input type="text" id="dishInput" style="font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif" placeholder="料理名を入力（複数は . で区切る 例: カレー.サラダ）" class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm focus:outline-none focus:border-emerald-500 focus:bg-white transition-all">
+                <input type="text" id="dishInput" style="font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif" placeholder="料理名を入力してください" class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm focus:outline-none focus:border-emerald-500 focus:bg-white transition-all">
                 <button id="searchBtn" class="bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white px-5 rounded-none text-sm font-bold flex items-center justify-center transition-all shadow-md shadow-emerald-100">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -197,7 +197,6 @@
         <div id="tabGuide" class="hidden flex-col gap-4">
             <div id="guideChips" class="flex gap-2 overflow-x-auto pb-1"[scrollbar-width:none] [&::-webkit-scrollbar]:hidden></div>
             <div id="guideList" class="grid grid-cols-3 gap-2"></div>
-            <p class="text-[10px] text-slate-400 leading-relaxed">※代表的な食材の目安です。含有量は食材・調理法で異なります。</p>
         </div>
 
     </main>
