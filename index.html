@@ -363,17 +363,17 @@
             {
                 icon: "fa-solid fa-magnifying-glass",
                 title: "1. 料理名を検索",
-                desc: "気になった料理の名前を入力欄に入れて検索ボタンを押しましょう。"
+                desc: "入力欄に料理名を入れて検索ボタンを押してください.\n また,複数品の場合は料理名ごとに.(ドット)で区切ってください."
             },
             {
                 icon: "fa-solid fa-microscope",
                 title: "2. AIが自動解析",
-                desc: "Gemini AIが最大34項目の栄養素を完全自動で瞬時に判定します。"
+                desc: "Gemini AIが34項目の栄養素を自動で約10秒前後で判定します."
             },
             {
                 icon: "fa-solid fa-chart-pie",
                 title: "3. 推奨量と比較",
-                desc: "あなたの年齢・性別に合わせた1日あたりの推奨量と見比べることができます。"
+                desc: "あなたの年齢・性別に合わせた1日あたりの推奨量と見比べることができます."
             }
         ];
 
@@ -575,7 +575,7 @@
 
         window.deleteUser = function(userId) {
             if (appData.users.length <= 1) {
-                alert("最後の1人のユーザーは削除できません。");
+                alert("最後1人のユーザーは削除できません");
                 return;
             }
             appData.users = appData.users.filter(u => u.id !== userId);
