@@ -460,7 +460,11 @@
             const currentUser = appData.users.find(u => u.id === appData.currentUserId);
             if (currentUser) {
                 document.getElementById('currentUserName').textContent = currentUser.name;
-                document.getElementById('currentUserDetail').textContent = `(${currentUser.age}歳 / ${currentUser.gender})`;
+                if (currentUser.gender === '回答しない') {
+                    document.getElementById('currentUserDetail').textContent = `(${currentUser.age}歳)`;
+                } else {
+                    document.getElementById('currentUserDetail').textContent = `(${currentUser.age}歳 / ${currentUser.gender})`;
+                }        
             }
         }
 
