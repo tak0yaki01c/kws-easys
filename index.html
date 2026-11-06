@@ -9,7 +9,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter / Noto Sans JP -->
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Dela+Gothic+One&family=Kaisei+Decol:wght@700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -67,6 +67,9 @@
         .gtip.l{left:0}.gtip.c{left:50%;transform:translateX(-50%)}.gtip.r{right:0}
         .gicon{flex:none;width:3rem;height:3rem;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:linear-gradient(135deg,#ffedd5,#fef08a)}
         .food{display:inline-block;padding:.15rem .6rem;border-radius:999px;font-size:.68rem;font-weight:700;background:#fef3c7;color:#92400e}
+        /* 見出し専用フォント */
+        h2,h3,.font-head{font-family:'Dela Gothic One','Zen Maru Gothic','Noto Sans JP',sans-serif!important;font-weight:400!important;letter-spacing:.02em}
+        h4{font-family:'Kaisei Decol','Zen Maru Gothic','Noto Sans JP',serif!important;font-weight:700!important}
         .pop{animation:pop .3s ease}@keyframes pop{from{opacity:0;transform:scale(.96)}}
     </style>
 </head>
@@ -79,7 +82,7 @@
    <!-- ハンバーガーの左：ユーザー情報（小さく表示） -->
         <div class="absolute right-[3.75rem] top-1/2 -translate-y-1/2 text-right leading-tight text-slate-700 max-w-[6rem]">
             <div id="currentUserName" class="text-[11px] font-bold truncate">---</div>
-            <div id="currentUserDetail" class="text-[10px] opacity-80 whitespace-nowrap">(--歳 / --)</div>
+            <div id="currentUserDetail" class="text-[10px] opacity-80" style="word-break:keep-all">(--歳 / --)</div>
         </div>
 
             <!-- 右端：ハンバーガーボタン -->
@@ -93,7 +96,7 @@
     <div id="sidebarOverlay" class="fixed inset-0 modal-bg z-40 hidden transition-opacity duration-300"></div>
     <aside id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-emerald-50">
-            <span class="font-bold text-emerald-800 flex items-center gap-2">
+            <span class="font-head text-emerald-800 flex items-center gap-2">
                 <i class="fa-solid fa-compass"></i> メニュー
             </span>
             <button id="closeSidebarBtn" class="w-8 h-8 rounded-full hover:bg-emerald-100 text-slate-500 flex items-center justify-center">
@@ -161,17 +164,16 @@
 
         <!-- 検索結果（栄養素テーブル） -->
         <section id="resultSection" class="hidden bg-white p-5 rounded-none shadow-sm border border-slate-100 flex flex-col gap-4">
-            <div class="flex justify-between items-end border-b border-slate-100 pb-3">
-                <div>
-                    <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">1人前の推定栄養素</span>
-                    <div class="flex items-center gap-2 mt-1">
-                        <h2 id="resultDishTitle" class="text-xl font-bold text-slate-800">---</h2>
-                        <button id="ingredientBtn" class="text-[11px] font-bold text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-full flex items-center gap-1 transition-colors">
-                            <i class="fa-solid fa-carrot"></i> 使用材料
-                        </button>
-                    </div>
+            <div class="flex flex-col gap-1.5 border-b border-slate-100 pb-3">
+                <span class="self-start text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">1人前の推定栄養素</span>
+                <h2 id="resultDishTitle" class="text-xl font-bold text-slate-800 break-words">---</h2>
+                <!-- 料理名の右下: 除外表示 + 使用材料ボタン（料理名の長さに影響されない） -->
+                <div class="flex items-start justify-end gap-2">
+                    <span id="resultNote" class="text-xs text-slate-400 text-right pt-1">（除外: 含有量0）</span>
+                    <button id="ingredientBtn" class="shrink-0 whitespace-nowrap text-[11px] font-bold text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-full flex items-center gap-1 transition-colors">
+                        <i class="fa-solid fa-carrot"></i> 使用材料
+                    </button>
                 </div>
-                <span id="resultNote" class="text-xs text-slate-400 text-right">（除外: 含有量0）</span>
             </div>
 
             <!-- テーブルコンテナ（高さ指定 + 縦スクロール） -->
@@ -228,12 +230,15 @@
                 </div>
                 <div>
                     <label class="text-[11px] font-bold text-slate-500 mb-1 block">性別</label>
-                    <div class="flex gap-4 pt-1">
+                    <div class="flex flex-wrap gap-x-4 gap-y-1.5 pt-1">
                         <label class="flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer">
                             <input type="radio" name="regGender" value="男性" checked class="accent-emerald-500"> 男性
                         </label>
                         <label class="flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer">
                             <input type="radio" name="regGender" value="女性" class="accent-emerald-500"> 女性
+                        </label>
+                        <label class="flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer">
+                            <input type="radio" name="regGender" value="回答しない" class="accent-emerald-500"> 回答しない
                         </label>
                     </div>
                 </div>
@@ -248,9 +253,8 @@
     </div>
 
     <!-- モーダル: チュートリアル -->
-    <div id="tutorialModal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl p-6 w-full max-w-xs shadow-2xl flex flex-col gap-4 relative border border-slate-100">
-            <button id="closeTutorialBtn" class="absolute top-4 right-4 w-7 h-7 bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 flex items-center justify-center">
+    <div id="tutorialModal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center px-0 py-4 hidden">
+        <div class="bg-whibg-white rounded-none p-6 w-full max-w-md shadow-2xl flex flex-col gap-4 relative border-y border-slate-100         <button id="closeTutorialBtn" class="absolute top-4 right-4 w-7 h-7 bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 flex items-center justify-center">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
 
@@ -277,15 +281,10 @@
     </div>
 
     <!-- モーダル: あなたの情報 -->
-    <div id="userInfoModal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl p-6 w-full max-w-xs shadow-2xl flex flex-col gap-4 relative border border-slate-100">
-            <button id="closeUserInfoBtn" class="absolute top-4 right-4 w-7 h-7 bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 flex items-center justify-center">
+    <div id="userInfoModal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center px-0 py-4 hidden">
+        <div class="bg-whibg-white rounded-none p-6 pt-14 w-full max-w-md shadow-2xl flex flex-col gap-4 relative border-y border-slate-100         <button id="closeUserInfoBtn" class="absolute top-4 right-4 w-7 h-7 bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 flex items-center justify-center">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
-
-            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-3">
-                <i class="fa-solid fa-id-card text-emerald-500"></i> あなたの情報
-            </h3>
 
             <div class="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100 flex flex-col gap-2">
                 <div class="flex justify-between text-xs">
@@ -325,9 +324,8 @@
     </div>
 
     <!-- モーダル: ユーザー管理 -->
-    <div id="userMgmtModal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl p-6 w-full max-w-xs shadow-2xl flex flex-col gap-4 relative border border-slate-100">
-            <button id="closeUserMgmtBtn" class="absolute top-4 right-4 w-7 h-7 bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 flex items-center justify-center">
+    <div id="userMgmtModal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center px-0 py-4 hidden">
+        <div class="bg-whibg-white rounded-none p-6 w-full max-w-md shadow-2xl flex flex-col gap-4 relative border-y border-slate-100         <button id="closeUserMgmtBtn" class="absolute top-4 right-4 w-7 h-7 bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 flex items-center justify-center">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
 
@@ -498,6 +496,8 @@
             for (let i = 0; i < dots.length; i++) {
                 dots[i].className = i === currentSlideIdx ? "w-2 h-2 rounded-full bg-emerald-500" : "w-2 h-2 rounded-full bg-slate-200";
             }
+            prevSlideBtn.classList.toggle('invisible', currentSlideIdx === 0);
+            nextSlideBtn.classList.toggle('invisible', currentSlideIdx === tutorialSlides.length - 1);
         }
         prevSlideBtn.addEventListener('click', () => { if (currentSlideIdx > 0) { currentSlideIdx--; renderSlide(); } });
         nextSlideBtn.addEventListener('click', () => { if (currentSlideIdx < tutorialSlides.length - 1) { currentSlideIdx++; renderSlide(); } });
@@ -637,8 +637,10 @@
         function normName(dish) {
             return dish.normalize('NFKC').toLowerCase().replace(/\s+/g, '');
         }
+        // 「回答しない」は内部的に「女性」と同じ扱い（推奨量計算・AI問い合わせ・キャッシュ）
+        function effectiveGender(g) { return g === '回答しない' ? '女性' : g; }
         function cacheKey(dish, user) {
-            return normName(dish) + '|' + user.age + '|' + user.gender;
+            return normName(dish) + '|' + user.age + '|' + effectiveGender(user.gender);
         }
         function trimCache() {
             const keys = Object.keys(appData.cache);
@@ -694,7 +696,7 @@
                     const res = await fetch(API_ENDPOINT, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ dish: missing.map(i => dishes[i]).join('.'), age: currentUser.age, gender: currentUser.gender })
+                        body: JSON.stringify({ dish: missing.map(i => dishes[i]).join('.'), age: currentUser.age, gender: effectiveGender(currentUser.gender) })
                     });
 
                     const resData = await res.json();
@@ -769,7 +771,7 @@
 
             const title = document.getElementById('resultDishTitle');
             title.textContent = names.join(' / ');
-            title.className = (multi ? 'text-base' : 'text-xl') + ' font-bold text-slate-800';
+            title.className = (multi ? 'text-base' : 'text-xl') + ' font-bold text-slate-800 break-words';
             const noteEl = document.getElementById('resultNote');
             noteEl.textContent = note || '（除外: 含有量0）';
             noteEl.style.whiteSpace = 'pre-line';
